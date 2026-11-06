@@ -14,11 +14,14 @@ jobs:
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Verify and extract archive
+      - name: Repair, verify and extract archive
         run: |
-          unzip -tq SVGStudio-Android-Pro.zip
-          unzip -q -o SVGStudio-Android-Pro.zip
-          rm SVGStudio-Android-Pro.zip
+          sudo apt-get update
+          sudo apt-get install -y zip
+          zip -FF SVGStudio-Android-Pro.zip --out SVGStudio-Android-Pro-repaired.zip
+          unzip -tq SVGStudio-Android-Pro-repaired.zip
+          unzip -q -o SVGStudio-Android-Pro-repaired.zip
+          rm SVGStudio-Android-Pro.zip SVGStudio-Android-Pro-repaired.zip
           rm .github/workflows/extract-svgstudio.yml
       - name: Commit extracted project files
         run: |
@@ -27,5 +30,3 @@ jobs:
           git add -A
           git commit -m "Add extracted SVG Studio Android project"
           git push origin HEAD:main
-
-# Trigger extraction run
