@@ -27,3 +27,5 @@ jobs:
           git add -A
           git commit -m "Add extracted SVG Studio Android project"
           git push origin HEAD:main
+
+# Trigger extraction run
